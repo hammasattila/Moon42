@@ -1,26 +1,19 @@
 <template>
-  <div class="center container">
-    <form v-on:submit.prevent="submit">
-      <div class="form">
-        <div class="field">
-          <label class="label">Input</label>
-          <div class="control">
-            <input v-model="input" class="input" type="text" placeholder="Text input">
-          </div>
-        </div>
-      </div>
-      <div class="field is-grouped">
-        <div class="control">
-          <button class="button is-primary">Submit</button>
-        </div>
-      </div>
-    </form>
-
-    <div class="center container">
-      <p>{{ response }}</p>
+  <form v-on:submit.prevent="submit">
+    <div class="field">
+      <input v-model="input" class="input center" type="text"
+        placeholder="input argument for the REST API. Example: first second third fourth .">
     </div>
+    <div>
+      <button class="center" style="display: block;">Send HTTP request</button>
+    </div>
+  </form>
 
+  <div id="response_container" class="center card">
+    <h3>Response from the REST API</h3>
+    <p>{{ response }}</p>
   </div>
+
 </template>
 
 <script lang="ts">
@@ -41,13 +34,17 @@ export default class MainPage extends Vue {
     }).then(resp => {
       // Check for HTTP status.
       if (resp.status !== 200) {
-        console.error("The input was invalid. It should start with the term 'first' or 'second'.");
+        this.response = "ERROR: The input was invalid. It should start with the term 'first' or 'second'.";
+        console.error(this.response);
         return;
       }
 
       // HTTP staus OK
       resp.json().then(data => {
         this.response = data.join(' ');
+        if (data.length === 0) {
+          this.response = 'INFO: The response is an empty array.';
+        }
       });
     });
   }
@@ -56,10 +53,36 @@ export default class MainPage extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-div.center {
-  width: 100%;
-  max-width: 600px;
-  /* Center horizontally*/
-  margin: 0 auto;
+form {
+  >div {
+    margin: 1rem;
+  }
+}
+
+.center {
+  /* Center horizontally */
+  margin-left: auto!important;
+  margin-right: auto!important;
+}
+
+.field {
+  position: relative;
+
+  label,
+  input {
+    display: block;
+  }
+
+  input {
+    position: relative;
+    width: 80%;
+  }
+}
+
+#response_container {
+  width: 80%;
+  p,h1,h2,h3,h4,h6 {
+    text-align: center;
+  }
 }
 </style>
