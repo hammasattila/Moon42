@@ -12,4 +12,4 @@ app.listen(port, () => {
 })
 
 app.use(cors());
-app.use('/api', InterviewRouter);
+app.use('/api/interview', InterviewRouter);

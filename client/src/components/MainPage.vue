@@ -19,17 +19,19 @@
 <script lang="ts">
 import { Vue } from 'vue-class-component';
 
+const API_URL: string = process.env.VUE_APP_API_URL || 'http://localhost:8000';
+
 export default class MainPage extends Vue {
   input = '';
   response = '';
 
   public submit (): void {
-    console.log(this.input);
+    console.log(API_URL);
 
     const params = new URLSearchParams();
     params.set('input', this.input);
 
-    fetch('http://localhost:8000/api?' + params, {
+    fetch(`${API_URL}/api/interview/magic?` + params, {
       method: 'GET'
     }).then(resp => {
       // Check for HTTP status.

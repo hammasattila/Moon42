@@ -3,4 +3,4 @@ import * as MagicController from '../controllers/interview';
 
 
 export let InterviewRouter: Router = Router()
-    .get('/', MagicController.magic);
+    .get('/magic', MagicController.magic);
